@@ -84,22 +84,24 @@ const Page: React.FC = () => {
 
   return (
     <main>
-      <div className="mb-4 text-2xl font-bold">カテゴリ一覧</div>
+      <div className="mb-4 text-sm font-bold sm:text-base md:text-2xl">
+        カテゴリ一覧
+      </div>
 
       {categories.length === 0 ? (
         <div className="text-gray-500">カテゴリは1個も作成されていません</div>
       ) : (
         <div>
-          <table className="w-full border-collapse border border-gray-300">
+          <table className="w-full border-collapse border border-gray-300 text-xs sm:text-sm md:text-base">
             <thead className="bg-gray-100">
               <tr>
-                <th className="border border-gray-300 px-4 py-2 text-left">
+                <th className="border border-gray-300 px-1 py-1 text-left sm:px-2 sm:py-2 md:px-4 md:py-2">
                   ID
                 </th>
-                <th className="border border-gray-300 px-4 py-2 text-left">
+                <th className="border border-gray-300 px-1 py-1 text-left sm:px-2 sm:py-2 md:px-4 md:py-2">
                   名前
                 </th>
-                <th className="border border-gray-300 px-4 py-2 text-left">
+                <th className="border border-gray-300 px-1 py-1 text-left sm:px-2 sm:py-2 md:px-4 md:py-2">
                   編集
                 </th>
               </tr>
@@ -107,18 +109,18 @@ const Page: React.FC = () => {
             <tbody>
               {categories.map((category) => (
                 <tr key={category.id}>
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="border border-gray-300 px-1 py-1 sm:px-2 sm:py-2 md:px-4 md:py-2">
                     {category.id}
                   </td>
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="border border-gray-300 px-1 py-1 sm:px-2 sm:py-2 md:px-4 md:py-2">
                     <a href={`/admin/categories/${category.id}`}>
                       {category.name}
                     </a>
                   </td>
-                  <td className="border border-gray-300">
+                  <td className="flex justify-center border border-gray-300 px-1 py-1 sm:px-2 sm:py-2 md:px-2 md:py-2">
                     <button
                       className={twMerge(
-                        "ml-4 rounded-md px-5 py-1 font-bold",
+                        "rounded-md px-2 py-1 text-xs font-bold sm:px-5 sm:text-sm md:text-base",
                         "bg-indigo-500 text-white hover:bg-indigo-600",
                         "disabled:cursor-not-allowed disabled:opacity-50",
                       )}
@@ -130,6 +132,17 @@ const Page: React.FC = () => {
               ))}
             </tbody>
           </table>
+          <div className="mt-2 flex justify-end">
+            <button
+              className={twMerge(
+                "rounded-md px-2 py-1 text-xs font-bold sm:px-5 sm:text-sm md:text-base",
+                "bg-green-700 text-white hover:bg-green-800",
+                "disabled:cursor-not-allowed disabled:opacity-50",
+              )}
+            >
+              <a href={`/admin/categories/new`}>新規作成</a>
+            </button>
+          </div>
         </div>
       )}
     </main>
