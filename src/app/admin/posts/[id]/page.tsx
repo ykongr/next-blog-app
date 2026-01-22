@@ -270,7 +270,20 @@ const Page: React.FC = () => {
 
   return (
     <main>
-      <div className="mb-4 text-2xl font-bold">投稿記事の編集</div>
+      <div className="mb-6 flex items-center justify-between">
+        <div className="mb-4 text-sm font-bold sm:text-base md:text-2xl">
+          投稿記事の編集
+        </div>
+        <button
+          className={twMerge(
+            "rounded-md px-2 py-1 text-xs font-bold sm:px-5 sm:text-sm md:text-base",
+            "bg-green-700 text-white hover:bg-green-800",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+          )}
+        >
+          <a href={`/admin/posts/new`}>新規作成</a>
+        </button>
+      </div>
 
       <form
         onSubmit={handleSubmit}
@@ -279,21 +292,24 @@ const Page: React.FC = () => {
         <div className="space-y-6">
           {/* タイトル */}
           <div className="space-y-2">
-            <label htmlFor="title" className="block font-bold">
+            <label
+              htmlFor="title"
+              className="block text-sm font-bold sm:text-base"
+            >
               タイトル
             </label>
             <input
               type="text"
               id="title"
               name="title"
-              className="w-full rounded-md border-2 px-2 py-1"
+              className="w-full rounded-md border-2 px-2 py-1 text-xs sm:text-sm md:text-base"
               placeholder="タイトルを入力してください"
               value={newTitle}
               onChange={updateTitle}
               required
             />
             {titleError && (
-              <div className="flex items-center space-x-1 text-sm font-bold text-red-500">
+              <div className="flex items-center space-x-1 text-xs font-bold text-red-500 sm:text-sm">
                 <FontAwesomeIcon
                   icon={faTriangleExclamation}
                   className="mr-0.5"
@@ -305,13 +321,16 @@ const Page: React.FC = () => {
 
           {/* コンテンツ */}
           <div className="space-y-2">
-            <label htmlFor="content" className="block font-bold">
+            <label
+              htmlFor="content"
+              className="block text-sm font-bold sm:text-base"
+            >
               コンテンツ
             </label>
             <textarea
               id="content"
               name="content"
-              className="w-full rounded-md border-2 px-2 py-1"
+              className="w-full rounded-md border-2 px-2 py-1 text-xs sm:text-sm md:text-base"
               placeholder="コンテンツを入力してください"
               value={newContent}
               onChange={updateContent}
@@ -319,7 +338,7 @@ const Page: React.FC = () => {
               required
             />
             {contentError && (
-              <div className="flex items-center space-x-1 text-sm font-bold text-red-500">
+              <div className="flex items-center space-x-1 text-xs font-bold text-red-500 sm:text-sm">
                 <FontAwesomeIcon
                   icon={faTriangleExclamation}
                   className="mr-0.5"
@@ -331,21 +350,24 @@ const Page: React.FC = () => {
 
           {/* カバー画像URL */}
           <div className="space-y-2">
-            <label htmlFor="coverImageURL" className="block font-bold">
+            <label
+              htmlFor="coverImageURL"
+              className="block text-sm font-bold sm:text-base"
+            >
               カバー画像URL
             </label>
             <input
               type="text"
               id="coverImageURL"
               name="coverImageURL"
-              className="w-full rounded-md border-2 px-2 py-1"
+              className="w-full rounded-md border-2 px-2 py-1 text-xs sm:text-sm md:text-base"
               placeholder="カバー画像URLを入力してください"
               value={newCoverImageURL}
               onChange={updateCoverImageURL}
               required
             />
             {coverImageURLError && (
-              <div className="flex items-center space-x-1 text-sm font-bold text-red-500">
+              <div className="flex items-center space-x-1 text-xs font-bold text-red-500 sm:text-sm">
                 <FontAwesomeIcon
                   icon={faTriangleExclamation}
                   className="mr-0.5"
@@ -357,11 +379,14 @@ const Page: React.FC = () => {
 
           {/* カテゴリ選択 */}
           <div className="space-y-2">
-            <div className="block font-bold">カテゴリ</div>
+            <div className="block text-sm font-bold sm:text-base">カテゴリ</div>
             <div className="space-y-2">
               {categories && categories.length > 0 ? (
                 categories.map((category) => (
-                  <label key={category.id} className="flex items-center">
+                  <label
+                    key={category.id}
+                    className="flex items-center text-xs sm:text-sm md:text-base"
+                  >
                     <input
                       type="checkbox"
                       checked={newCategoryIds.includes(category.id)}
@@ -372,17 +397,19 @@ const Page: React.FC = () => {
                   </label>
                 ))
               ) : (
-                <div className="text-gray-500">カテゴリなし</div>
+                <div className="text-xs text-gray-500 sm:text-sm md:text-base">
+                  カテゴリなし
+                </div>
               )}
             </div>
           </div>
         </div>
 
-        <div className="flex justify-end space-x-2">
+        <div className="flex justify-end space-x-1 sm:space-x-2">
           <button
             type="submit"
             className={twMerge(
-              "rounded-md px-5 py-1 font-bold",
+              "rounded-md px-2 py-1 text-xs font-bold sm:px-5 sm:text-sm md:text-base",
               "bg-indigo-500 text-white hover:bg-indigo-600",
               "disabled:cursor-not-allowed disabled:opacity-50",
             )}
@@ -402,7 +429,7 @@ const Page: React.FC = () => {
           <button
             type="button"
             className={twMerge(
-              "rounded-md px-5 py-1 font-bold",
+              "rounded-md px-2 py-1 text-xs font-bold sm:px-5 sm:text-sm md:text-base",
               "bg-red-500 text-white hover:bg-red-600",
             )}
             onClick={handleDelete}
