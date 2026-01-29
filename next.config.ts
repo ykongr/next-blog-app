@@ -1,9 +1,6 @@
-const nextConfig = {
-  eslint: {
-    // これを true にすると、ビルド時の Lint エラーを無視してデプロイを強行します
-    ignoreDuringBuilds: true,
-  },
-  // 他の設定があればそのまま残す
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   /* config options here */
   devIndicators: false,
   images: {
@@ -20,4 +17,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
