@@ -59,79 +59,84 @@ const Page: React.FC = () => {
   const [categories, setCategories] = useState<Category[] | null>(null);
 
   // ウェブAPI (/api/posts/[id]) から投稿記事をフェッチする関数の定義
-  const fetchPost = async () => {
-    try {
-      setIsLoading(true);
-
-      const requestUrl = `/api/posts/${id}`;
-      const res = await fetch(requestUrl, {
-        method: "GET",
-        cache: "no-store",
-      });
-
-      if (!res.ok) {
-        setCurrentPost(undefined);
-        throw new Error(
-          `投稿記事のフェッチに失敗しました: (${res.status}: ${res.statusText})`,
-        );
-      }
-
-      const apiResBody = (await res.json()) as PostApiResponse;
-      setCurrentPost(apiResBody);
-      setNewTitle(apiResBody.title);
-      setNewContent(apiResBody.content);
-      setNewCoverImageURL(apiResBody.coverImageURL);
-      setNewCategoryIds(apiResBody.categories.map((c) => c.category.id));
-    } catch (error) {
-      const errorMsg =
-        error instanceof Error
-          ? error.message
-          : `予期せぬエラーが発生しました ${error}`;
-      console.error(errorMsg);
-      setFetchErrorMsg(errorMsg);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   // ウェブAPI (/api/categories) からカテゴリの一覧をフェッチする関数の定義
-  const fetchCategories = async () => {
-    try {
-      const requestUrl = "/api/categories";
-      const res = await fetch(requestUrl, {
-        method: "GET",
-        cache: "no-store",
-      });
-
-      if (!res.ok) {
-        setCategories(null);
-        throw new Error(
-          `カテゴリの一覧のフェッチに失敗しました: (${res.status}: ${res.statusText})`,
-        );
-      }
-
-      const apiResBody = (await res.json()) as CategoryApiResponse[];
-      setCategories(
-        apiResBody.map((body) => ({
-          id: body.id,
-          name: body.name,
-        })),
-      );
-    } catch (error) {
-      const errorMsg =
-        error instanceof Error
-          ? error.message
-          : `予期せぬエラーが発生しました ${error}`;
-      console.error(errorMsg);
-    }
-  };
 
   // コンポーネントがマウントされたとき (初回レンダリングのとき) に1回だけ実行
   useEffect(() => {
+    // 1. fetchPost を中に入れる
+    const fetchPost = async () => {
+      try {
+        setIsLoading(true);
+        const requestUrl = `/api/posts/${id}`; // id に依存している
+        const res = await fetch(requestUrl, {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          setCurrentPost(undefined);
+          throw new Error(
+            `投稿記事のフェッチに失敗しました: (${res.status}: ${res.statusText})`,
+          );
+        }
+
+        const apiResBody = (await res.json()) as PostApiResponse;
+        setCurrentPost(apiResBody);
+        setNewTitle(apiResBody.title);
+        setNewContent(apiResBody.content);
+        setNewCoverImageURL(apiResBody.coverImageURL);
+        setNewCategoryIds(apiResBody.categories.map((c) => c.category.id));
+      } catch (error) {
+        const errorMsg =
+          error instanceof Error
+            ? error.message
+            : `予期せぬエラーが発生しました ${error}`;
+        console.error(errorMsg);
+        setFetchErrorMsg(errorMsg);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const requestUrl = "/api/categories";
+        const res = await fetch(requestUrl, {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          setCategories(null);
+          throw new Error(
+            `カテゴリの一覧のフェッチに失敗しました: (${res.status}: ${res.statusText})`,
+          );
+        }
+
+        const apiResBody = (await res.json()) as CategoryApiResponse[];
+        setCategories(
+          apiResBody.map((body) => ({
+            id: body.id,
+            name: body.name,
+          })),
+        );
+      } catch (error) {
+        const errorMsg =
+          error instanceof Error
+            ? error.message
+            : `予期せぬエラーが発生しました ${error}`;
+        console.error(errorMsg);
+      }
+    };
+
+    // 2. fetchCategories ももし他で使わないなら中に入れるか、
+    // 他で使うなら今のまま外に置いて useCallback で囲む必要があります。
     fetchPost();
     fetchCategories();
-  }, []);
 
+    // 3. 依存関係に [id] を入れる（fetchCategoriesが外にあるならそれも警告されます）
+  }, [id]);
   // バリデーション関数
   const validateTitle = (title: string): string => {
     if (title.length < 1 || title.length > 100) {

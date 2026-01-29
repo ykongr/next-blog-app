@@ -28,7 +28,7 @@ const Page: React.FC = () => {
 
   // ウェブAPI (/api/posts) から投稿記事の一覧をフェッチする関数の定義
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchPosts = async () => {
       try {
         setIsLoading(true);
         const requestUrl = "/api/posts";
@@ -58,7 +58,7 @@ const Page: React.FC = () => {
       }
     };
 
-    fetchPost();
+    fetchPosts();
   }, []);
 
   // 投稿記事の一覧を取得中の画面
