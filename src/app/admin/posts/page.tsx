@@ -27,43 +27,37 @@ const Page: React.FC = () => {
   const [posts, setPosts] = useState<PostApiResponse[] | null>(null);
 
   // ウェブAPI (/api/posts) から投稿記事の一覧をフェッチする関数の定義
-  const fetchPosts = async () => {
-    try {
-      setIsLoading(true);
-
-      // フェッチ処理の本体
-      const requestUrl = "/api/posts";
-      const res = await fetch(requestUrl, {
-        method: "GET",
-        cache: "no-store",
-      });
-
-      // レスポンスのステータスコードが200以外の場合 (投稿記事のフェッチに失敗した場合)
-      if (!res.ok) {
-        setPosts(null);
-        throw new Error(
-          `投稿記事の一覧のフェッチに失敗しました: (${res.status}: ${res.statusText})`,
-        ); // -> catch節に移動
-      }
-
-      // レスポンスのボディをJSONとして読み取り投稿記事配列 (State) にセット
-      const apiResBody = (await res.json()) as PostApiResponse[];
-      setPosts(apiResBody);
-    } catch (error) {
-      const errorMsg =
-        error instanceof Error
-          ? error.message
-          : `予期せぬエラーが発生しました ${error}`;
-      console.error(errorMsg);
-      setFetchErrorMsg(errorMsg);
-    } finally {
-      // 成功した場合も失敗した場合もローディング状態を解除
-      setIsLoading(false);
-    }
-  };
-
-  // コンポーネントがマウントされたとき (初回レンダリングのとき) に1回だけ実行
   useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setIsLoading(true);
+        const requestUrl = "/api/posts";
+        const res = await fetch(requestUrl, {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          setPosts(null);
+          throw new Error(
+            `投稿記事の一覧のフェッチに失敗しました: (${res.status}: ${res.statusText})`,
+          );
+        }
+
+        const apiResBody = (await res.json()) as PostApiResponse[];
+        setPosts(apiResBody);
+      } catch (error) {
+        const errorMsg =
+          error instanceof Error
+            ? error.message
+            : `予期せぬエラーが発生しました ${error}`;
+        console.error(errorMsg);
+        setFetchErrorMsg(errorMsg);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchPosts();
   }, []);
 
