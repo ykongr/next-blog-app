@@ -3,6 +3,9 @@ import { NextResponse, NextRequest } from "next/server";
 import type { Post } from "@/generated/prisma/client";
 import { supabase } from "@/utils/supabase"; // ◀ 追加
 
+export const revalidate = 0; // ◀ サーバサイドのキャッシュを無効化する設定
+export const dynamic = "force-dynamic";
+
 type RequestBody = {
   title: string;
   content: string;

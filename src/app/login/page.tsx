@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
-import ValidationAlert from "../_components/ValidationAlert";
+import ValidationAlert from "@/app/_components/ValidationAlert";
 import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/navigation";
 
