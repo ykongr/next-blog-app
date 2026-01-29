@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -65,7 +65,7 @@ const Page: React.FC = () => {
   // コンポーネントがマウントされたとき (初回レンダリングのとき) に1回だけ実行
   useEffect(() => {
     // 1. fetchPost を中に入れる
-    const fetchPost = async () => {
+    const fetchPost = useCallback(async () => {
       try {
         setIsLoading(true);
         const requestUrl = `/api/posts/${id}`; // id に依存している
@@ -97,7 +97,7 @@ const Page: React.FC = () => {
       } finally {
         setIsLoading(false);
       }
-    };
+    }, [id]);
 
     const fetchCategories = async () => {
       try {
